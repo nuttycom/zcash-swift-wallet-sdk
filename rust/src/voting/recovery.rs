@@ -52,11 +52,6 @@ pub unsafe extern "C" fn zcashlc_voting_store_delegation_tx_hash(
             unsafe { db.as_ref() }.ok_or_else(|| anyhow!("VotingDatabaseHandle is null"))?;
         let round_id_str = unsafe { str_from_ptr(round_id, round_id_len) }?;
         let tx_hash_str = unsafe { str_from_ptr(tx_hash, tx_hash_len) }?;
-        // Check if the bundle exists
-        handle
-            .db
-            .get_delegation_tx_hash(&round_id_str, bundle_index)
-            .map_err(|e| anyhow!("store_delegation_tx_hash failed: {}", e))?;
         handle
             .db
             .store_delegation_tx_hash(&round_id_str, bundle_index, &tx_hash_str)
